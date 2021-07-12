@@ -5,6 +5,7 @@ import com.compasso.productsms.exception.PriceProductNegativeException;
 import com.compasso.productsms.exception.ProductIdNotFount;
 import com.compasso.productsms.utils.MessageValidation;
 import com.compasso.productsms.utils.StatusCode;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,12 +32,17 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public final ResponseEntity<ExceptionResponse> handleNotFoundExceptionException(final NotFoundException exception) {
+    public final ResponseEntity<ExceptionResponse> handleNotFoundException(final NotFoundException exception) {
         return new ResponseEntity<>(createResponse(StatusCode.NOT_FOUND.getStatusCode(), exception), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ProductIdNotFount.class)
-    public final ResponseEntity<HttpStatus> handleNotFoundExceptionException(final ProductIdNotFount exception) {
+    public final ResponseEntity<HttpStatus> handleNotFoundException() {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public final ResponseEntity<HttpStatus> handleEmptyResultDataAccessException() {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -52,3 +58,4 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                         .orElse(MessageValidation.UNDEFINED_MESSAGE);
     }
 }
+
