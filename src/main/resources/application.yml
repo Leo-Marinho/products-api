@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: products-api
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      default_schema: product_schema
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/postgres_db?currentSchema=product_schema
+    username: root
+    password: admin
+    driverClassName: org.postgresql.Driver
+
+  flyway:
+    url: jdbc:postgresql://localhost:5432/postgres_db
+    schemas: product_schema
+    user: root
+    password: admin
+    locations:
+      classpath: db/migration
+
+
+
